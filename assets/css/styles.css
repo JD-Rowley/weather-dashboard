@@ -9,13 +9,18 @@ header {
     background: rgb(37,93,208);
     background: linear-gradient(90deg, rgba(37,93,208,1) 0%, rgba(13,31,157,1) 60%, rgba(2,13,84,1) 100%);
     color: white;
+    padding: 10px;
+}
+
+.content-wrapper {
+    display: flex;
 }
 
 .search-container {
     display: flex;
     flex-direction: column;
+    flex: 1 25%;
     justify-content: center;
-    width: 25%;
 }
 
 .search-form {
@@ -27,4 +32,35 @@ header {
     display: flex;
     flex-direction: column;
     border-top: 1px solid black;
+}
+
+.btn, .input-city {
+    padding: 10px 0;
+    border-radius: 10px;
+    font-size: large;
+}
+
+.input-city {
+    padding: 15px 10px;
+}
+
+.info-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1 75%;
+}
+
+.current-conditions {
+    display: flex;
+    flex: 1 75%;
+    flex-wrap: wrap;
+    border: 2px solid black;
+    height: 35vh;
+}
+
+.five-day-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1 75%;
+    height: 30vh;
 }

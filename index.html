@@ -12,32 +12,36 @@
         <h1>Weather Dashboard</h1>
     </header>
 
-    <div id="search-container" class="search-container">
-        <form id="search-form" class="search-form">
-            <label for="city"><h2>Search for a City:</h2></label>
-            <input type="text" name="city" placeholder="Enter a City" />
-            <button type="submit" class="btn">Search</button>
-        </form>
-        <div id="search-history" class="btn-container btn">
-            <button class="search-history-btn btn">City Name</button>
-            <button class="search-history-btn btn">City Name</button>
-            <button class="search-history-btn btn">City Name</button>
-            <button class="search-history-btn btn">City Name</button>
-            <button class="search-history-btn btn">City Name</button>
-            <button class="search-history-btn btn">City Name</button>
-            <button class="search-history-btn btn">City Name</button>
-            <button class="search-history-btn btn">City Name</button>
+    <div class="content-wrapper">
+        <div id="search-container" class="search-container">
+            <form id="search-form" class="search-form">
+                <label for="city"><h2>Search for a City:</h2></label>
+                <input type="text" name="city" class="input-city" placeholder="Enter a City" />
+                <button type="submit" class="btn">Search</button>
+            </form>
+            <div id="search-history" class="btn-container btn">
+                <button class="search-history-btn btn">City Name</button>
+                <button class="search-history-btn btn">City Name</button>
+                <button class="search-history-btn btn">City Name</button>
+                <button class="search-history-btn btn">City Name</button>
+                <button class="search-history-btn btn">City Name</button>
+                <button class="search-history-btn btn">City Name</button>
+                <button class="search-history-btn btn">City Name</button>
+                <button class="search-history-btn btn">City Name</button>
+            </div>
         </div>
-    </div>
-    <div id="info-container" class="info-container">
-        <div id="current-conditions" class="current-conditions"></div>
-        <div id="5-day-forecast" class="5-day-forecast">
-            <h3>5-Day Forecast:</h3>
-            <div id="day-cards" class="day-cards"></div>
-            <div id="day-cards" class="day-cards"></div>
-            <div id="day-cards" class="day-cards"></div>
-            <div id="day-cards" class="day-cards"></div>
-            <div id="day-cards" class="day-cards"></div>
+        <div id="info-container" class="info-container">
+            <div id="current-conditions" class="current-conditions"></div>
+            <div class="five-day-wrapper">
+                <div id="five-day-forecast" class="five-day-forecast">
+                    <h3>5-Day Forecast:</h3>
+                    <div id="day-cards" class="day-cards"></div>
+                    <div id="day-cards" class="day-cards"></div>
+                    <div id="day-cards" class="day-cards"></div>
+                    <div id="day-cards" class="day-cards"></div>
+                    <div id="day-cards" class="day-cards"></div>
+                </div>
+            </div>
         </div>
     </div>
 
