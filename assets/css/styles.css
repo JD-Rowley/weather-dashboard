@@ -1,0 +1,30 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 10px;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    background: rgb(37,93,208);
+    background: linear-gradient(90deg, rgba(37,93,208,1) 0%, rgba(13,31,157,1) 60%, rgba(2,13,84,1) 100%);
+    color: white;
+}
+
+.search-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 25%;
+}
+
+.search-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.btn-container {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid black;
+}
