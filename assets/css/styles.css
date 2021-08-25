@@ -32,6 +32,7 @@ header {
     display: flex;
     flex-direction: column;
     border-top: 1px solid black;
+    padding: 20px 0
 }
 
 .btn, .input-city {
@@ -63,4 +64,24 @@ header {
     flex-wrap: wrap;
     flex: 1 75%;
     height: 30vh;
+    margin:0;
+}
+
+.five-day-forecast {
+    margin: 0;
+    padding: 0;
+}
+
+.card-wrapper{
+    display: flex;
+    flex: 1 75%;
+    margin: 0;
+}
+
+.day-cards {
+    background-color: navy;
+    color: white;
+    height: 30vh;
+    width: 15vw;
+    padding: 10px;
 }
