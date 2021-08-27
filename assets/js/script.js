@@ -6,6 +6,8 @@ var searchHistoryEl = document.querySelector("#search-history")
 
 var city = cityInputEl.value.trim();
 
+var citySearchCounter = 0;
+
 var getWeatherInfo = function() {
     // format the one call api url
     var apiUrl = "https://api.openweathermap.org/data/2.5/onecall?" + city + "&exclude=minutely,alerts&units=imperial" + apiKey;
@@ -61,10 +63,18 @@ var formSubmitHandler = function(event) {
         // create a button element with recent searches
         var recentSearchesEl = document.createElement("button");
         recentSearchesEl.className = "search-history-btn btn";
+        recentSearchesEl.type = "submit";
         recentSearchesEl.innerText = cityValue;
 
         // append the button to search history
         searchHistoryEl.appendChild(recentSearchesEl);
+
+        // increment counter for past searches
+        citySearchCounter++;
+
+        if(citySearchCounter === 8) {
+
+        };
     };
     
     saveCityInput();
