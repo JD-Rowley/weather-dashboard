@@ -69,14 +69,25 @@ header {
     flex-direction: column;
     width: 80vw;
     margin: 10px 0;
-
 }
 
 .current-conditions {
     display: flex;
+    flex-direction: column;
+    align-content: center;
     border: 2px solid black;
-    height: 35vh;
     margin: 10px 0;
+}
+
+.current-conditions h2 {
+    font-size: 30px;
+    font-weight: bolder;
+    padding: 20px 0 10px 10px;
+}
+
+.current-conditions p {
+    font-size: 24px;
+    padding: 20px;
 }
 
 .five-day-wrapper {
@@ -103,11 +114,16 @@ header {
 
 .day-cards {
     display: flex;
+    flex-direction: column;
     background: rgb(37,93,208);
     background: linear-gradient(90deg, rgba(37,93,208,1) 0%, rgba(13,31,157,1) 60%, rgba(2,13,84,1) 100%);
     color: white;
     padding: 10px;
     margin: 10px;
     width: 20%;
-    height: 30vh;
+}
+
+.day-cards p {
+    font-size: 18px;
+    padding: 10px;
 }
