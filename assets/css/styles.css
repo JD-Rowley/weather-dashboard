@@ -90,6 +90,18 @@ header {
     padding: 20px;
 }
 
+.favorable {
+    background-color: green;
+}
+
+.moderate {
+    background-color: orange;
+}
+
+.severe {
+    background-color: red;
+}
+
 .five-day-wrapper {
     display: flex;
     height: 30vh;

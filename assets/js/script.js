@@ -4,7 +4,7 @@ var searchFormEl = document.querySelector("#search-form");
 var cityInputEl = document.querySelector("#city");
 var searchHistoryEl = document.querySelector("#search-history")
 var currentConditionsEl = document.querySelector("#current-conditions");
-var dayCardEl = document.querySelector("#card-wrapper");
+var dayCardEl = document.querySelector("#day-card");
 
 var city = cityInputEl.value.trim();
 
@@ -22,7 +22,7 @@ var getWeatherInfo = function() {
 
             // create variables to pull various  current weather information from the api
             var location = document.createElement("h2");
-                location.textContent = data.timezone + data.current.weather[0].icon;
+                location.textContent = data.timezone + " " + data.current.dt + " " + data.current.weather[0].icon;
                 currentConditionsEl.appendChild(location);
             
             var temp = document.createElement("p");
@@ -38,8 +38,20 @@ var getWeatherInfo = function() {
                 currentConditionsEl.appendChild(humidity);
 
             var uvi = document.createElement("p");
-                uvi.textContent = "UV Index: " + data.current.uvi;
+                uvi.textContent = "UV Index: ";
                 currentConditionsEl.appendChild(uvi);
+                var uviConditions = document.createElement("div");
+                    uviConditions.textContent = data.current.uvi;
+                    uvi.appendChild(uviConditions);
+                    if (data.current.uvi < 3) {
+                        uviConditions.addClass(".favorable");
+                    } else if (uviConditions >= 3 || uviConditions <= 7) {
+                        uviConditions.addClass(".moderate");
+                    } else {
+                        uviConditions.addClass(".severe");
+                    };
+
+            createFiveDayForecast();
         });
     });
 };
@@ -52,12 +64,17 @@ var createFiveDayForecast = function() {
     // make a request to the url
     fetch(apiUrl).then(function(response) {
         response.json().then(function(data) {
-            console.log(data.daily[0]);
+            console.log(data.daily[0].dt);
 
             // create for loop to iterate through daily array
             for (var i = 0; i < data.daily[5]; i++) {
-                // create a div with a class of "day-cards" and apply date, temp, wind, and humidity
-                var date = 
+                // apply date, temp, wind, and humidity to "day-card" div
+                var dayCardDate = document.createElement("h3");
+                    dayCardDate.textContent = data.daily[i].dt;
+                    dayCardEl.appendChild(dayCardDate);
+                    console.log(data.daily[i].dt);
+
+                
                 // continue loop for five days
             }
         });
