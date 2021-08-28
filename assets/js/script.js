@@ -40,12 +40,13 @@ var getWeatherInfo = function() {
             var uvi = document.createElement("p");
                 uvi.textContent = "UV Index: ";
                 currentConditionsEl.appendChild(uvi);
-                var uviConditions = document.createElement("div");
+                var uviConditions = document.createElement("span");
                     uviConditions.textContent = data.current.uvi;
+                    uviConditions.className = "favorable";
                     uvi.appendChild(uviConditions);
-                    if (data.current.uvi < 3) {
+                    if (uviConditions.value < 3) {
                         uviConditions.addClass(".favorable");
-                    } else if (uviConditions >= 3 || uviConditions <= 7) {
+                    } else if (uviConditions.value >= 3 || uviConditions.value <= 7) {
                         uviConditions.addClass(".moderate");
                     } else {
                         uviConditions.addClass(".severe");

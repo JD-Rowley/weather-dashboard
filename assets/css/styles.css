@@ -92,14 +92,23 @@ header {
 
 .favorable {
     background-color: green;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
 }
 
 .moderate {
     background-color: orange;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
 }
 
 .severe {
     background-color: red;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
 }
 
 .five-day-wrapper {
