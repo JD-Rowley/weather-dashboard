@@ -4,8 +4,9 @@ var searchFormEl = document.querySelector("#search-form");
 var cityInputEl = document.querySelector("#city");
 var searchHistoryEl = document.querySelector("#search-history")
 var currentConditionsEl = document.querySelector("#current-conditions");
-var dayCardEl = document.querySelector("#day-card");
+var dayCardEl = document.querySelector("#card-wrapper");
 
+var i = 1;
 var city;
 var citySearchCounter = 0;
 // format for converting date from unix time
@@ -38,13 +39,7 @@ var formSubmitHandler = function(event) {
     currentConditionsEl.innerHTML = "";
     dayCardEl.innerHTML = "";
         
-    saveCityInput();
-
-    // create a button element with recent searches
-    var recentSearchesEl = document.createElement("button");
-        recentSearchesEl.className = "search-history-btn btn";
-        recentSearchesEl.type = "submit";
-        recentSearchesEl.innerText = cityValue;
+    saveCityInput(cityValue);
 
     // increment counter for past searches
     citySearchCounter++;
@@ -52,7 +47,7 @@ var formSubmitHandler = function(event) {
 
 var getWeatherInfo = function() {
     // var apiUrl = "https://api.openweathermap.org/data/2.5/onecall?" + city + "&exclude=minutely,alerts&units=imperial" + apiKey;
-    var apiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=33.44&lon=-94.04&exclude=hourly,minutely&units=imperial&appid=09dc3595df08a6cbcf8463276de45c90";
+    var apiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=40.84&lon=-111.91&exclude=hourly,minutely&units=imperial&appid=09dc3595df08a6cbcf8463276de45c90";
 
     // make a request to the url
     fetch(apiUrl).then(function(response) {
@@ -67,8 +62,8 @@ var getWeatherInfo = function() {
         var icon = document.createElement("img");
             var weatherIcon = data.current.weather[0].icon;
             icon.setAttribute("src", "http://openweathermap.org/img/wn/" + weatherIcon + "@2x.png");
-            icon.setAttribute("style", "height: 60px; width: 60px;");
-            location.appendChild(icon);
+            icon.setAttribute("style", "height: 100px; width: 100px;");
+            currentConditionsEl.appendChild(icon);
 
             var temp = document.createElement("p");
                 temp.innerHTML = "Temp: " + Math.round(data.current.temp) + " &degF";
@@ -90,117 +85,67 @@ var getWeatherInfo = function() {
                     uvi.appendChild(uviConditions);
                     if (data.current.uvi < 3) {
                         uviConditions.classList.add("favorable");
-                    } else if (data.current.uvi >= 3 || data.current.uvi <= 7) {
+                    } else if (data.current.uvi >= 3 && data.current.uvi <= 7) {
                         uviConditions.classList.add("moderate");
                     } else {
                         uviConditions.classList.add("severe");
                     };
 
-        // createFiveDayForecast(); 
-        
-        var date = document.createElement("h3");
-            date.textContent = new Date((data.daily[1].dt) * 1000).toLocaleString("en-us", format);
-            date.setAttribute("style", "font-size: 24px;");
-            dayCardEl.appendChild(date);
+        // create a loop for the five day forecast
+        while (i < 6) {
+            // create div cards to hold forecast info for each day
+            var dayCard = document.createElement("div")
+                dayCard.className = "day-cards";
+                dayCardEl.appendChild(dayCard);
+                // date for the specific forecast day
+                var date = document.createElement("h3");
+                    date.textContent = new Date((data.daily[i].dt) * 1000).toLocaleString("en-us", format);
+                    date.setAttribute("style", "font-size: 24px;");
+                    dayCard.appendChild(date);
 
-        var icon = document.createElement("img");
-            var weatherIcon = data.daily[1].weather[0].icon;
-            icon.setAttribute("src", "http://openweathermap.org/img/wn/" + weatherIcon + "@2x.png");
-            icon.setAttribute("style", "height: 100px; width: 100px");
-            dayCardEl.appendChild(icon);
+                // icon for the five day forecast
+                var icon = document.createElement("img");
+                    var weatherIcon = data.daily[i].weather[0].icon;
+                    icon.setAttribute("src", "http://openweathermap.org/img/wn/" + weatherIcon + "@2x.png");
+                    icon.setAttribute("style", "height: 100px; width: 100px");
+                    dayCard.appendChild(icon);
 
-        var temp = document.createElement("p");
-            temp.innerHTML = "Temp: " + Math.round(data.daily[1].temp.day) + " &degF";
-            dayCardEl.appendChild(temp);
+                // forecast temperature
+                var temp = document.createElement("p");
+                    temp.innerHTML = "Temp: " + Math.round(data.daily[i].temp.day) + " &degF";
+                    dayCard.appendChild(temp);
 
-        var wind = document.createElement("p");
-            wind.textContent = "Wind: " + Math.round(data.daily[1].wind_speed) + " MPH";
-            dayCardEl.appendChild(wind);
+                // forecast wind
+                var wind = document.createElement("p");
+                    wind.textContent = "Wind: " + Math.round(data.daily[i].wind_speed) + " MPH";
+                    dayCard.appendChild(wind);
 
-        var humidity = document.createElement("p");
-            humidity.textContent = "Humidity: " + data.daily[1].humidity + "%";
-            dayCardEl.appendChild(humidity);
-        });
+                // forecast humidity
+                var humidity = document.createElement("p");
+                    humidity.textContent = "Humidity: " + data.daily[i].humidity + "%";
+                    dayCard.appendChild(humidity);
+            // increment forecast day
+            i++;
+        }});
     });
 };
 
-var createFiveDayForecast = function() {
-    // var apiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=33.44&lon=-94.04&exclude=hourly,minutely&units=imperial&appid=09dc3595df08a6cbcf8463276de45c90";
-
-    // // make a request to the url
-    // fetch(apiUrl).then(function(response) {
-    //     response.json().then(function(data) {
-    //         console.log(data.daily[0]);
-
-            // create for loop to iterate through daily array
-            // for (var i = 0; i < data.daily[5]; i++) {
-                // apply date, temp, wind, and humidity to "day-card" div
-                // continue loop for five days
-    //         }
-    //     });
-    // });
-    // var date = document.createElement("h3");
-    //         date.textContent = data.daily[0].dt;
-    //         dayCardEl.appendChild(date);
-
-    //     var icon = document.createElement("img");
-    //         var weatherIcon = data.daily[0].weather[0].icon;
-    //         icon.setAttribute("src", "http://openweathermap.org/img/wn/" + weatherIcon + "@2x.png");
-    //         dayCardEl.appendChild(icon);
-
-    //     var temp = document.createElement("p");
-    //         temp.textContent = "Temp: " + Math.round(data.daily[0].temp.day) + " F";
-    //         dayCardEl.appendChild(temp);
-
-    //     var wind = document.createElement("p");
-    //         wind.textContent = "Wind: " + Math.round(data.daily[0].wind_speed) + " MPH";
-    //         dayCardEl.appendChild(wind);
-
-    //     var humidity = document.createElement("p");
-    //         humidity.textContent = "Humidity: " + data.daily[0].humidity + "%";
-    //         dayCardEl.appendChild(humidity);
-};
-
-// async function Test(cityValue) {
-//     var geoApi = "https://nominatim.openstreetmap.org/search?city=" + cityValue + "&format=json";
-
-//     return await fetch(geoApi)
-//         .then(function(response) {
-//         return response.json()
-//         .then(function(data) {
-//             console.log(data);
-
-//             var cityLat = data[0].lat;
-//             var cityLon = data[0].lon;
-
-//             return cityLon;
-//             return "hi"
-
-//             console.log(cityLat);
-//             console.log(cityLon);
-//         });
-//     });
-// }
-
 // convert city name to coordinates
 var getCoordinates = function() {
+    var cityValue = cityInputEl.value.trim();
     var geoApi = "https://nominatim.openstreetmap.org/search?city=" + cityValue + "&format=json";
 
     fetch(geoApi).then(function(response) {
         response.json().then(function(data) {
             console.log(data);
-
-            var cityLat = data[0].lat;
-            var cityLon = data[0].lon;
-
-            console.log(cityLat, cityLon);
-            var city = "&lat=" + cityLat + "&lon=" + cityLon;
-            return city;
         })
     });
 };
 
 var saveCityInput = function(cityValue) {
+    var cityValue = cityInputEl.value.trim();
+
+    cityValue.value = localStorage.getItem("city")
     // save city input into local storage
     localStorage.setItem("city", cityValue);
 
