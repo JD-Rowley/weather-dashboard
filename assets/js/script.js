@@ -6,23 +6,26 @@ var searchHistoryEl = document.querySelector("#search-history")
 var currentConditionsEl = document.querySelector("#current-conditions");
 var dayCardEl = document.querySelector("#day-card");
 
-// var city = "lat=" + cityLat + "&lon=" + cityLon;
-
+var city;
 var citySearchCounter = 0;
+// format for converting date from unix time
+var format = {
+    month: "2-digit",
+    day: "numeric",
+    year: "numeric"
+};
 
 // create submit handler for search button
-var formSubmitHandler = async function(event) {
+var formSubmitHandler = function(event) {
     event.preventDefault();
 
     // create variable for city value
     var cityValue = cityInputEl.value.trim();
     console.log(cityValue);
-
-    getCoordinates(cityValue);
     
     // pass city value into getWeatherInfo function
     if (cityValue) {
-        displayWeatherInfo(cityValue);
+        getWeatherInfo(cityValue);
         // clear out the search box
         cityInputEl.value = "";
     } else {
@@ -33,31 +36,18 @@ var formSubmitHandler = async function(event) {
 
     // reset current weather content
     currentConditionsEl.innerHTML = "";
+    dayCardEl.innerHTML = "";
+        
+    saveCityInput();
 
-    // getWeatherInfo(cityValue);
-
-    var saveCityInput = function() {
-        // save city input into local storage
-        localStorage.setItem("city", cityValue);
-
-        // create a button element with recent searches
-        var recentSearchesEl = document.createElement("button");
+    // create a button element with recent searches
+    var recentSearchesEl = document.createElement("button");
         recentSearchesEl.className = "search-history-btn btn";
         recentSearchesEl.type = "submit";
         recentSearchesEl.innerText = cityValue;
 
-        // append the button to search history
-        searchHistoryEl.appendChild(recentSearchesEl);
-
-        // increment counter for past searches
-        citySearchCounter++;
-
-        if(citySearchCounter === 8) {
-
-        };
-    };
-    
-    saveCityInput();
+    // increment counter for past searches
+    citySearchCounter++;
 };
 
 var getWeatherInfo = function() {
@@ -71,7 +61,7 @@ var getWeatherInfo = function() {
 
         // create variables to pull various current weather information from the api
         var location = document.createElement("h2");
-        location.textContent = data.timezone + " " + data.current.dt + " ";
+        location.textContent = data.timezone + " (" + new Date((data.current.dt) * 1000).toLocaleString("en-us", format) + ") ";
         currentConditionsEl.appendChild(location);
 
         var icon = document.createElement("img");
@@ -81,7 +71,7 @@ var getWeatherInfo = function() {
             location.appendChild(icon);
 
             var temp = document.createElement("p");
-                temp.textContent = "Temp: " + Math.round(data.current.temp) + " F";
+                temp.innerHTML = "Temp: " + Math.round(data.current.temp) + " &degF";
                 currentConditionsEl.appendChild(temp);
 
             var wind = document.createElement("p");
@@ -107,33 +97,32 @@ var getWeatherInfo = function() {
                     };
 
         // createFiveDayForecast(); 
+        
         var date = document.createElement("h3");
-            date.textContent = data.daily[0].dt;
+            date.textContent = new Date((data.daily[1].dt) * 1000).toLocaleString("en-us", format);
             date.setAttribute("style", "font-size: 24px;");
             dayCardEl.appendChild(date);
 
         var icon = document.createElement("img");
-            var weatherIcon = data.daily[0].weather[0].icon;
+            var weatherIcon = data.daily[1].weather[0].icon;
             icon.setAttribute("src", "http://openweathermap.org/img/wn/" + weatherIcon + "@2x.png");
             icon.setAttribute("style", "height: 100px; width: 100px");
             dayCardEl.appendChild(icon);
 
         var temp = document.createElement("p");
-            temp.textContent = "Temp: " + Math.round(data.daily[0].temp.day) + " F";
+            temp.innerHTML = "Temp: " + Math.round(data.daily[1].temp.day) + " &degF";
             dayCardEl.appendChild(temp);
 
         var wind = document.createElement("p");
-            wind.textContent = "Wind: " + Math.round(data.daily[0].wind_speed) + " MPH";
+            wind.textContent = "Wind: " + Math.round(data.daily[1].wind_speed) + " MPH";
             dayCardEl.appendChild(wind);
 
         var humidity = document.createElement("p");
-            humidity.textContent = "Humidity: " + data.daily[0].humidity + "%";
+            humidity.textContent = "Humidity: " + data.daily[1].humidity + "%";
             dayCardEl.appendChild(humidity);
         });
     });
 };
-
-getWeatherInfo();
 
 var createFiveDayForecast = function() {
     // var apiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=33.44&lon=-94.04&exclude=hourly,minutely&units=imperial&appid=09dc3595df08a6cbcf8463276de45c90";
@@ -194,7 +183,7 @@ var createFiveDayForecast = function() {
 // }
 
 // convert city name to coordinates
-var getCoordinates = function(cityValue) {
+var getCoordinates = function() {
     var geoApi = "https://nominatim.openstreetmap.org/search?city=" + cityValue + "&format=json";
 
     fetch(geoApi).then(function(response) {
@@ -206,10 +195,23 @@ var getCoordinates = function(cityValue) {
 
             console.log(cityLat, cityLon);
             var city = "&lat=" + cityLat + "&lon=" + cityLon;
+            return city;
         })
     });
 };
 
+var saveCityInput = function(cityValue) {
+    // save city input into local storage
+    localStorage.setItem("city", cityValue);
 
+    // create a button element with recent searches
+    var recentSearchesEl = document.createElement("button");
+        recentSearchesEl.className = "search-history-btn btn";
+        recentSearchesEl.type = "submit";
+        recentSearchesEl.innerText = cityValue;
+
+    // append the button to search history
+    searchHistoryEl.appendChild(recentSearchesEl);
+};
 
 searchFormEl.addEventListener("submit", formSubmitHandler);
