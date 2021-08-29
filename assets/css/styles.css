@@ -85,6 +85,10 @@ header {
     padding: 20px 0 10px 10px;
 }
 
+.current-conditions img {
+    margin: 0;
+}
+
 .current-conditions p {
     font-size: 24px;
     padding: 20px;
@@ -93,21 +97,21 @@ header {
 .favorable {
     background-color: green;
     color: white;
-    padding: 5px;
+    padding: 5px 20px;
     border-radius: 5px;
 }
 
 .moderate {
     background-color: orange;
     color: white;
-    padding: 5px;
+    padding: 5px 20px;
     border-radius: 5px;
 }
 
 .severe {
     background-color: red;
     color: white;
-    padding: 5px;
+    padding: 5px 20px;
     border-radius: 5px;
 }
 
