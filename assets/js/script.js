@@ -61,7 +61,7 @@ var format = {
 function getWeatherInfo(event) {
     event.preventDefault();
 
-    // debugger;
+    debugger;
 
     // create variable for city value
     var cityValue = cityInputEl.value.trim();

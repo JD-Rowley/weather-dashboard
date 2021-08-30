@@ -44,7 +44,7 @@ header {
 }
 
 .search-form-btn {
-    background-color: rgba(13,31,157,1);
+    background-color: rgb(41, 57, 167);
     color: white;
 }
 
@@ -60,7 +60,7 @@ header {
 
 .search-history-btn:hover {
     background: rgb(37,93,208);
-    background: linear-gradient(90deg, rgba(37,93,208,1) 0%, rgba(13,31,157,1) 60%, rgba(2,13,84,1) 100%);
+    background: linear-gradient(90deg, rgb(94, 140, 231) 0%, rgb(63, 81, 214) 60%, rgb(41, 57, 167) 100%);
     color: white;
 }
 
@@ -80,7 +80,7 @@ header {
 }
 
 .current-conditions h2 {
-    font-size: 30px;
+    font-size: 36px;
     font-weight: bolder;
     padding: 20px 0 0 10px;
     margin: 10px 10px 0 10px;
@@ -142,7 +142,7 @@ header {
     display: flex;
     flex-direction: column;
     background: rgb(37,93,208);
-    background: linear-gradient(90deg, rgba(37,93,208,1) 0%, rgba(13,31,157,1) 60%, rgba(2,13,84,1) 100%);
+    background: linear-gradient(90deg, rgb(94, 140, 231) 0%, rgb(63, 81, 214) 60%, rgb(41, 57, 167) 100%);
     color: white;
     padding: 10px;
     margin: 10px;
