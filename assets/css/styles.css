@@ -48,17 +48,13 @@ header {
     color: white;
 }
 
-.search-form-btn:hover {
-    background-color: rgba(37,93,208);
-}
-
 .form-input {
     padding: 10px 10px;
     border-radius: 10px;
     font-size: large;
 }
 
-.search-history-btn:hover {
+.clear-all-btn:hover, .search-history-btn:hover {
     background: rgb(37,93,208);
     background: linear-gradient(90deg, rgb(94, 140, 231) 0%, rgb(63, 81, 214) 60%, rgb(41, 57, 167) 100%);
     color: white;
