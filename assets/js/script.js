@@ -178,12 +178,12 @@ function getWeatherInfo(event) {
                 // increment forecast day
                 i++;
             }});
-            saveCityInput();
+            cityInput();
         });
     })});
 };
 
-var saveCityInput = function() {
+var cityInput = function() {
     var cityValue = cityInputEl.value.trim();
 
     if (cityValue) {
@@ -193,12 +193,22 @@ var saveCityInput = function() {
         return;
     }
 
-    localStorage.getItem("city");
+    // localStorage.getItem("city");
 
     citiesArr.push(cityValue)
-    // save city input into local storage
-    localStorage.setItem("city", JSON.stringify(citiesArr));
+    // // save city input into local storage
+    // localStorage.setItem("city", JSON.stringify(citiesArr));
 
+    // create a button elements with function
+    createBtnEl();
+
+    saveCityInput();
+
+    // increment counter for past searches
+    citySearchCounter++;
+};
+
+var createBtnEl = function() {
     // create a button elements with recent searches
     var recentSearchesEl = document.createElement("button");
         recentSearchesEl.className = "search-history-btn btn";
@@ -208,9 +218,22 @@ var saveCityInput = function() {
     // append the button to search history
     searchHistoryEl.insertBefore(recentSearchesEl, searchHistoryEl.firstChild);
     clearAllEl.classList.remove("hide");
+};
 
-    // increment counter for past searches
-    citySearchCounter++;
+var saveCityInput = function() {
+    localStorage.setItem("city", JSON.stringify(citiesArr));
+};
+
+var loadCityInput = function() {
+    var savedCities = localStorage.getItem("city");
+    if (!savedCities) {
+        return false;
+    }
+
+    savedCities = JSON.parse(savedCities);
+        for (var i = 0; i < savedCities.length; i++) {
+            createBtnEl(savedCities[i]);
+        }
 };
 
 var clearStorage = function() {
@@ -229,3 +252,5 @@ var pastSearch = function() {
 searchFormEl.addEventListener("submit", getWeatherInfo);
 clearAllEl.addEventListener("click", clearStorage);
 searchHistoryEl.addEventListener("submit", pastSearch);
+
+loadCityInput();
