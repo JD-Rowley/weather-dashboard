@@ -48,6 +48,11 @@ header {
     color: white;
 }
 
+.search-form-btn:hover {
+    background-color: rgb(64, 89, 252);
+    color: white;
+}
+
 .form-input {
     padding: 10px 10px;
     border-radius: 10px;
@@ -148,4 +153,8 @@ header {
 .day-cards p {
     font-size: 18px;
     padding: 10px;
+}
+
+.hide {
+    display: none;
 }

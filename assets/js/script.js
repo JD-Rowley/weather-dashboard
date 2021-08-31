@@ -2,11 +2,12 @@ var apiKey = "&appid=09dc3595df08a6cbcf8463276de45c90";
 
 var searchFormEl = document.querySelector("#search-form");
 var cityInputEl = document.querySelector("#city");
-var searchHistoryEl = document.querySelector("#search-history")
+var searchHistoryEl = document.querySelector("#search-history");
+var clearAllEl = document.querySelector("#clear-all-btn");
 var currentConditionsEl = document.querySelector("#current-conditions");
 var dayCardEl = document.querySelector("#card-wrapper");
 
-var city;
+// var city;
 var citySearchCounter = 0;
 var citiesArr = [];
 
@@ -62,7 +63,7 @@ var format = {
 function getWeatherInfo(event) {
     event.preventDefault();
 
-    debugger;
+    // debugger;
 
     // create variable for city value
     var cityValue = cityInputEl.value.trim();
@@ -176,9 +177,8 @@ function getWeatherInfo(event) {
                         dayCard.appendChild(humidity);
                 // increment forecast day
                 i++;
-
-                saveCityInput();
             }});
+            saveCityInput();
         });
     })});
 };
@@ -205,14 +205,9 @@ var saveCityInput = function() {
         recentSearchesEl.type = "submit";
         recentSearchesEl.innerText = cityName;
 
-    var clearAllEl = document.createElement("button");
-        clearAllEl.className = "clear-all-btn btn";
-        clearAllEl.type = "click";
-        clearAllEl.innerText = "Clear All";
-
     // append the button to search history
-    searchHistoryEl.appendChild(recentSearchesEl);
-    searchHistoryEl.appendChild(clearAllEl);
+    searchHistoryEl.insertBefore(recentSearchesEl, searchHistoryEl.firstChild);
+    clearAllEl.classList.remove("hide");
 
     // increment counter for past searches
     citySearchCounter++;
@@ -223,12 +218,14 @@ var clearStorage = function() {
     while (searchHistoryEl.firstChild) {
         searchHistoryEl.removeChild(searchHistoryEl.firstChild);
     }
+    window.location.reload();
+    clearAllEl.classList.add("hide");
 };
 
 var pastSearch = function() {
-    getWeatherInfo(cityName);
+    getWeatherInfo();
 }
 
 searchFormEl.addEventListener("submit", getWeatherInfo);
-searchHistoryEl.addEventListener("click", clearStorage);
+clearAllEl.addEventListener("click", clearStorage);
 searchHistoryEl.addEventListener("submit", pastSearch);
