@@ -7,8 +7,6 @@ var clearAllEl = document.querySelector("#clear-all-btn");
 var currentConditionsEl = document.querySelector("#current-conditions");
 var dayCardEl = document.querySelector("#card-wrapper");
 
-// var city;
-var citySearchCounter = 0;
 var citiesArr = [];
 
 // format for converting date from unix time
