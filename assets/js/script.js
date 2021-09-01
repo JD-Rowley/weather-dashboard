@@ -19,8 +19,6 @@ var format = {
 function getWeatherInfo(event) {
     event.preventDefault();
 
-    // debugger;
-
     // create variable for city value
     var cityValue = cityInputEl.value.trim();
     console.log(cityValue);
@@ -61,9 +59,11 @@ function getWeatherInfo(event) {
 
                     // create a button elements with recent searches
                     var recentSearchesEl = document.createElement("button");
-                    recentSearchesEl.className = "search-history-btn btn";
-                    recentSearchesEl.type = "submit";
-                    recentSearchesEl.innerText = cityName;
+                        recentSearchesEl.id = "saved-city-btn";
+                        recentSearchesEl.className = "search-history-btn btn";
+                        recentSearchesEl.type = "click";
+                        recentSearchesEl.setAttribute("value", cityName);
+                        recentSearchesEl.innerText = cityName;
 
                     // append the button to search history
                     searchHistoryEl.insertBefore(recentSearchesEl, searchHistoryEl.firstChild);
@@ -155,72 +155,30 @@ function getWeatherInfo(event) {
     })});
 };
 
-// var cityInput = function() {
-//     var cityValue = cityInputEl.value.trim();
-
-//     if (cityValue) {
-//         // clear the textbox
-//         cityInputEl.value = "";
-//     } else {
-//         return;
-//     }
-
-    // citiesArr.push(cityValue)
-    // // save city input into local storage
-    // localStorage.setItem("city", JSON.stringify(citiesArr));
-
-    // // create a button elements with recent searches
-    // var recentSearchesEl = document.createElement("button");
-    // recentSearchesEl.className = "search-history-btn btn";
-    // recentSearchesEl.type = "submit";
-    // recentSearchesEl.innerText = cityValue;
-
-    // // append the button to search history
-    // searchHistoryEl.insertBefore(recentSearchesEl, searchHistoryEl.firstChild);
-    // clearAllEl.classList.remove("hide");
-
-
-    // saveCityInput();
-
-    // increment counter for past searches
-//     citySearchCounter++;
-// };
-
-// var createBtnEl = function() {
-//     // create a button elements with recent searches
-//     var recentSearchesEl = document.createElement("button");
-//         recentSearchesEl.className = "search-history-btn btn";
-//         recentSearchesEl.type = "submit";
-//         recentSearchesEl.innerText = cityValue;
-
-//     // append the button to search history
-//     searchHistoryEl.insertBefore(recentSearchesEl, searchHistoryEl.firstChild);
-//     clearAllEl.classList.remove("hide");
-// };
-
-// var saveCityInput = function() {
-//     localStorage.setItem("city", JSON.stringify(citiesArr));
-// };
-
 var loadCityInput = function() {
+    // load cities from local storage
     var savedCities = localStorage.getItem("city");
     if (!savedCities) {
         return false;
     }
 
+    // parse cities and create buttons for them
     savedCities = JSON.parse(savedCities);
         for (var i = 0; i < savedCities.length; i++) {
             var recentSearchesEl = document.createElement("button");
+                recentSearchesEl.id = "saved-city-btn";
                 recentSearchesEl.className = "search-history-btn btn";
-                recentSearchesEl.type = "submit";
+                recentSearchesEl.type = "click";
+                recentSearchesEl.setAttribute("value", savedCities[i]);
                 recentSearchesEl.innerText = savedCities[i];
-
+            
             // append buttons to search history element
             searchHistoryEl.insertBefore(recentSearchesEl, searchHistoryEl.firstChild);
             clearAllEl.classList.remove("hide");
         }
 };
 
+// clear the local storage via button
 var clearStorage = function() {
     localStorage.clear();
     while (searchHistoryEl.firstChild) {
@@ -230,12 +188,14 @@ var clearStorage = function() {
     clearAllEl.classList.add("hide");
 };
 
-var pastSearch = function() {
-    getWeatherInfo();
+var pastSearch = function(event) {
+    var pastCity = event.target.getAttribute("value");
+
+    getWeatherInfo(pastCity);
 }
 
 searchFormEl.addEventListener("submit", getWeatherInfo);
 clearAllEl.addEventListener("click", clearStorage);
-searchHistoryEl.addEventListener("submit", pastSearch);
+searchHistoryEl.addEventListener("click", pastSearch);
 
 loadCityInput();
