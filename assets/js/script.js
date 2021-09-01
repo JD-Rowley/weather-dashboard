@@ -18,48 +18,6 @@ var format = {
     year: "numeric"
 };
 
-// create submit handler for search button
-// var formSubmitHandler = function(event) {
-//     event.preventDefault();
-
-//     // create variable for city value
-//     var cityValue = cityInputEl.value.trim();
-//     console.log(cityValue);
-
-//     var geoApi = "https://nominatim.openstreetmap.org/search?city=" + cityValue + "&format=json";
-
-//     fetch(geoApi).then(function(response) {
-//         response.json().then(function(data) {
-//             console.log(data[0]);
-
-//             var cityLat = data[0].lat;
-//             var cityLon = data[0].lon;
-
-//             var city = "lat=" + cityLat + "&lon=" + cityLon;
-//             return city;
-//         })
-//     });
-    
-//     // pass city value into getWeatherInfo function
-//     if (cityValue) {
-//         // clear out the search box
-//         cityInputEl.value = "";
-//     } else {
-//         // alert the user if there is no value for city
-//         alert("Please enter a city name");
-//         return;
-//     }
-
-//     // reset current weather content
-//     currentConditionsEl.innerHTML = "";
-//     dayCardEl.innerHTML = "";
-        
-//     saveCityInput(cityValue);
-
-//     // increment counter for past searches
-//     citySearchCounter++;
-// };
-
 function getWeatherInfo(event) {
     event.preventDefault();
 
@@ -68,8 +26,11 @@ function getWeatherInfo(event) {
     // create variable for city value
     var cityValue = cityInputEl.value.trim();
     console.log(cityValue);
-    
-    if (!cityValue) {
+
+    if (cityValue) {
+        // clear the textbox
+        cityInputEl.value = "";
+    } else {
         // alert the user if there is no value for city
         alert("Please enter a city name");
         return;
@@ -94,8 +55,22 @@ function getWeatherInfo(event) {
             var city = "lat=" + cityLat + "&lon=" + cityLon;
             var cityStr = data[0].display_name;
                 var citySpl = cityStr.split(",");
-                cityName = citySpl.splice(0, 1);
+                var cityName = citySpl.splice(0, 1);
         
+                // save city into local storage
+                citiesArr.push(cityName);
+                localStorage.setItem("city", JSON.stringify(citiesArr));
+
+                    // create a button elements with recent searches
+                    var recentSearchesEl = document.createElement("button");
+                    recentSearchesEl.className = "search-history-btn btn";
+                    recentSearchesEl.type = "submit";
+                    recentSearchesEl.innerText = cityName;
+
+                    // append the button to search history
+                    searchHistoryEl.insertBefore(recentSearchesEl, searchHistoryEl.firstChild);
+                    clearAllEl.classList.remove("hide");
+
         // variable to call weather api
         var apiUrl = "https://api.openweathermap.org/data/2.5/onecall?" + city + "&exclude=minutely,alerts&units=imperial" + apiKey;
             
@@ -178,51 +153,56 @@ function getWeatherInfo(event) {
                 // increment forecast day
                 i++;
             }});
-            cityInput();
         });
     })});
 };
 
-var cityInput = function() {
-    var cityValue = cityInputEl.value.trim();
+// var cityInput = function() {
+//     var cityValue = cityInputEl.value.trim();
 
-    if (cityValue) {
-        // clear the textbox
-        cityInputEl.value = "";
-    } else {
-        return;
-    }
+//     if (cityValue) {
+//         // clear the textbox
+//         cityInputEl.value = "";
+//     } else {
+//         return;
+//     }
 
-    // localStorage.getItem("city");
-
-    citiesArr.push(cityValue)
+    // citiesArr.push(cityValue)
     // // save city input into local storage
     // localStorage.setItem("city", JSON.stringify(citiesArr));
 
-    // create a button elements with function
-    createBtnEl();
+    // // create a button elements with recent searches
+    // var recentSearchesEl = document.createElement("button");
+    // recentSearchesEl.className = "search-history-btn btn";
+    // recentSearchesEl.type = "submit";
+    // recentSearchesEl.innerText = cityValue;
 
-    saveCityInput();
+    // // append the button to search history
+    // searchHistoryEl.insertBefore(recentSearchesEl, searchHistoryEl.firstChild);
+    // clearAllEl.classList.remove("hide");
+
+
+    // saveCityInput();
 
     // increment counter for past searches
-    citySearchCounter++;
-};
+//     citySearchCounter++;
+// };
 
-var createBtnEl = function() {
-    // create a button elements with recent searches
-    var recentSearchesEl = document.createElement("button");
-        recentSearchesEl.className = "search-history-btn btn";
-        recentSearchesEl.type = "submit";
-        recentSearchesEl.innerText = cityName;
+// var createBtnEl = function() {
+//     // create a button elements with recent searches
+//     var recentSearchesEl = document.createElement("button");
+//         recentSearchesEl.className = "search-history-btn btn";
+//         recentSearchesEl.type = "submit";
+//         recentSearchesEl.innerText = cityValue;
 
-    // append the button to search history
-    searchHistoryEl.insertBefore(recentSearchesEl, searchHistoryEl.firstChild);
-    clearAllEl.classList.remove("hide");
-};
+//     // append the button to search history
+//     searchHistoryEl.insertBefore(recentSearchesEl, searchHistoryEl.firstChild);
+//     clearAllEl.classList.remove("hide");
+// };
 
-var saveCityInput = function() {
-    localStorage.setItem("city", JSON.stringify(citiesArr));
-};
+// var saveCityInput = function() {
+//     localStorage.setItem("city", JSON.stringify(citiesArr));
+// };
 
 var loadCityInput = function() {
     var savedCities = localStorage.getItem("city");
@@ -232,7 +212,14 @@ var loadCityInput = function() {
 
     savedCities = JSON.parse(savedCities);
         for (var i = 0; i < savedCities.length; i++) {
-            createBtnEl(savedCities[i]);
+            var recentSearchesEl = document.createElement("button");
+                recentSearchesEl.className = "search-history-btn btn";
+                recentSearchesEl.type = "submit";
+                recentSearchesEl.innerText = savedCities[i];
+
+            // append buttons to search history element
+            searchHistoryEl.insertBefore(recentSearchesEl, searchHistoryEl.firstChild);
+            clearAllEl.classList.remove("hide");
         }
 };
 
