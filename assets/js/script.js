@@ -28,6 +28,11 @@ function getWeatherInfo(cityValue) {
         response.json().then(function(data) {
             console.log(data[0]);
 
+            if (!data[0]) {
+                alert("Please enter a valid city name!");
+                return;
+            }
+
             // locate longitude and latitued within geocode
             var cityLat = data[0].lat;
             var cityLon = data[0].lon;
@@ -154,7 +159,7 @@ var saveCityInput = function(cityName) {
             recentSearchesEl.id = "saved-city-btn";
             recentSearchesEl.className = "search-history-btn btn";
             recentSearchesEl.type = "click";
-            recentSearchesEl.setAttribute("name", cityName);
+            recentSearchesEl.setAttribute("value", cityName);
             recentSearchesEl.innerText = cityName;
 
         // append the button to search history
@@ -176,7 +181,7 @@ var loadCityInput = function() {
                 recentSearchesEl.id = "saved-city-btn";
                 recentSearchesEl.className = "search-history-btn btn";
                 recentSearchesEl.type = "click";
-                recentSearchesEl.setAttribute("name", savedCities[i]);
+                recentSearchesEl.setAttribute("value", savedCities[i]);
                 recentSearchesEl.innerText = savedCities[i];
             
             // append buttons to search history element
@@ -196,7 +201,7 @@ var clearStorage = function() {
 };
 
 var pastSearch = function(event) {
-    var pastCity = event.target.getAttribute("name");
+    var pastCity = event.target.getAttribute("value");
 
     event.target.remove();
 
