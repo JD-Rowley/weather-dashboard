@@ -121,7 +121,7 @@ function getWeatherInfo(cityValue) {
                 i++;
             }});
         });
-        saveCityInput(cityName)
+        saveCityInput(cityName);
     })});
 };
 
@@ -154,7 +154,7 @@ var saveCityInput = function(cityName) {
             recentSearchesEl.id = "saved-city-btn";
             recentSearchesEl.className = "search-history-btn btn";
             recentSearchesEl.type = "click";
-            recentSearchesEl.setAttribute("value", cityName);
+            recentSearchesEl.setAttribute("name", cityName);
             recentSearchesEl.innerText = cityName;
 
         // append the button to search history
@@ -176,7 +176,7 @@ var loadCityInput = function() {
                 recentSearchesEl.id = "saved-city-btn";
                 recentSearchesEl.className = "search-history-btn btn";
                 recentSearchesEl.type = "click";
-                recentSearchesEl.setAttribute("value", savedCities[i]);
+                recentSearchesEl.setAttribute("name", savedCities[i]);
                 recentSearchesEl.innerText = savedCities[i];
             
             // append buttons to search history element
@@ -196,7 +196,9 @@ var clearStorage = function() {
 };
 
 var pastSearch = function(event) {
-    var pastCity = event.target.getAttribute("value");
+    var pastCity = event.target.getAttribute("name");
+
+    event.target.remove();
 
     getWeatherInfo(pastCity);
 }
