@@ -16,22 +16,7 @@ var format = {
     year: "numeric"
 };
 
-function getWeatherInfo(event) {
-    event.preventDefault();
-
-    // create variable for city value
-    var cityValue = cityInputEl.value.trim();
-    console.log(cityValue);
-
-    if (cityValue) {
-        // clear the textbox
-        cityInputEl.value = "";
-    } else {
-        // alert the user if there is no value for city
-        alert("Please enter a city name");
-        return;
-    }
-
+function getWeatherInfo(cityValue) {
     // reset current weather content
     currentConditionsEl.innerHTML = "";
     dayCardEl.innerHTML = "";
@@ -53,22 +38,6 @@ function getWeatherInfo(event) {
                 var citySpl = cityStr.split(",");
                 var cityName = citySpl.splice(0, 1);
         
-                // save city into local storage
-                citiesArr.push(cityName);
-                localStorage.setItem("city", JSON.stringify(citiesArr));
-
-                    // create a button elements with recent searches
-                    var recentSearchesEl = document.createElement("button");
-                        recentSearchesEl.id = "saved-city-btn";
-                        recentSearchesEl.className = "search-history-btn btn";
-                        recentSearchesEl.type = "click";
-                        recentSearchesEl.setAttribute("value", cityName);
-                        recentSearchesEl.innerText = cityName;
-
-                    // append the button to search history
-                    searchHistoryEl.insertBefore(recentSearchesEl, searchHistoryEl.firstChild);
-                    clearAllEl.classList.remove("hide");
-
         // variable to call weather api
         var apiUrl = "https://api.openweathermap.org/data/2.5/onecall?" + city + "&exclude=minutely,alerts&units=imperial" + apiKey;
             
@@ -152,7 +121,45 @@ function getWeatherInfo(event) {
                 i++;
             }});
         });
+        saveCityInput(cityName)
     })});
+};
+
+var enterCity = function(event) {
+    event.preventDefault();
+
+    // create variable for city value
+    var cityValue = cityInputEl.value.trim();
+    console.log(cityValue);
+
+    if (cityValue) {
+        // clear the textbox
+        cityInputEl.value = "";
+    } else {
+        // alert the user if there is no value for city
+        alert("Please enter a city name");
+        return;
+    }
+
+    getWeatherInfo(cityValue);
+};
+
+var saveCityInput = function(cityName) {
+    // save city into local storage
+    citiesArr.push(cityName);
+    localStorage.setItem("city", JSON.stringify(citiesArr));
+
+        // create a button elements with recent searches
+        var recentSearchesEl = document.createElement("button");
+            recentSearchesEl.id = "saved-city-btn";
+            recentSearchesEl.className = "search-history-btn btn";
+            recentSearchesEl.type = "click";
+            recentSearchesEl.setAttribute("value", cityName);
+            recentSearchesEl.innerText = cityName;
+
+        // append the button to search history
+        searchHistoryEl.insertBefore(recentSearchesEl, searchHistoryEl.firstChild);
+        clearAllEl.classList.remove("hide");
 };
 
 var loadCityInput = function() {
@@ -194,7 +201,7 @@ var pastSearch = function(event) {
     getWeatherInfo(pastCity);
 }
 
-searchFormEl.addEventListener("submit", getWeatherInfo);
+searchFormEl.addEventListener("submit", enterCity);
 clearAllEl.addEventListener("click", clearStorage);
 searchHistoryEl.addEventListener("click", pastSearch);
 
